@@ -26,14 +26,20 @@ fi
 # get the latest tag in semantic version format.
 latest_tag=$(git tag --sort=-v:refname | grep -E $semver_regex | head -n 1)
 
-if [ -z "$latest_tag" ]; then
-  echo "Error: Not found any tag in semantic version format."
-  exit 1
-fi
-
 # create output directory
 output_dir="blog/changelogs"
 mkdir -p $output_dir
 
+# get the range of commits
+if [ -z "$latest_tag" ]; then
+  echo "Warning: Not found any tag in semantic version format."
+  echo "Generating changelog from the beginning"
+  range=""
+else
+  echo "Latest tag: $latest_tag"
+  echo "Generating changelog from $latest_tag to HEAD"
+  range="$latest_tag..HEAD"
+fi
+
 # create changelog file
-npm exec git-cliff -- --tag $tag --output $output_dir/CHANGELOG-$tag.md $latest_tag..HEAD
+npm exec git-cliff -- --tag $tag --output $output_dir/CHANGELOG-$tag.md $range
