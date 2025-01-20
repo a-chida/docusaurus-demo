@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Get tag name
+# get tag name
 tag=$1
 
-# sample command
-sample_command="sample: npm run generate-changelog -- v1.0.0"
+# example command
+example_command="Example: npm run generate-changelog -- v1.0.0"
 
 # validate tag name
 if [ -z "$tag" ]; then
   echo "Error: Tag name is required"
-  echo $sample_command
+  echo $example_command
   exit 1
 fi
 
@@ -19,7 +19,7 @@ semver_regex="^v[0-9]+\.[0-9]+\.[0-9]+$"
 # validate tag name with semver regex
 if [[ ! $tag =~ $semver_regex ]]; then
   echo "Error: Invalid tag name. "
-  echo $sample_command
+  echo $example_command
   exit 1
 fi
 
